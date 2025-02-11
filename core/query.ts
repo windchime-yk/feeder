@@ -7,7 +7,7 @@ export class FeederQuery {
   constructor(private readonly queryRepository: QueryRepositoryInterface) {}
 
   /** Retrieve one Feed based on GUID */
-  getById(id: string): Promise<FeedItem> {
-    return this.queryRepository.getById(id);
+  getByIdOrThrow(feed: string, id: string): Promise<FeedItem> {
+    return this.queryRepository.getByIdOrThrow(feed, id);
   }
 }

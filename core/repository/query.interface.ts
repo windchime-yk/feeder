@@ -1,13 +1,21 @@
 export interface QueryRepositoryInterface {
   /** Retrieve a single feed based on GUID (including read status) */
-  getById(id: string): Promise<FeedItem>;
+  getByIdOrThrow(feed: string, id: string): Promise<FeederItem>;
   /** Retrieve multiple feeds based on an array of GUIDs (including read status) */
-  getByIds(ids: string[]): Promise<FeedItem[]>;
+  getByIds(ids: string[]): Promise<FeederItem[]>;
 }
 
-export interface FeedItem {
+export type FeederItem = FeedItem & MarkAsReadItem;
+
+export type FeedItem = {
   id: string;
   title: string;
   link: string;
-  markedAsRead: boolean;
-}
+};
+
+export type MarkAsReadItem = {
+  markedAsRead: true;
+  updatedAt: string;
+} | {
+  markedAsRead: false;
+};
