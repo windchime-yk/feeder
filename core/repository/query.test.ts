@@ -170,6 +170,46 @@ describe("QueryRepository", () => {
       ]);
     });
 
+    it("get all items", async () => {
+      const queryRepository = new QueryRepository(kv);
+      const FEED_URL1 = "https:example.com";
+      const ITEM_ID1 = "https:example.com/item/1";
+      const itemData1 = {
+        id: ITEM_ID1,
+        title: "Item 1",
+        link: "https:example.com/item/1",
+      };
+      const FEED_URL2 = "https:test.example";
+      const ITEM_ID2 = "https:test.example/item/1";
+      const itemData2 = {
+        id: ITEM_ID2,
+        title: "Item 2",
+        link: "https:test.example/item/2",
+      };
+      const UPDATED_AT = Date.now();
+
+      kv.set(["feed", FEED_URL1, ITEM_ID1], itemData1);
+      kv.set(
+        ["feed", "read", FEED_URL1, ITEM_ID1],
+        UPDATED_AT,
+      );
+      kv.set(["feed", FEED_URL2, ITEM_ID2], itemData2);
+
+      const feederItems = await queryRepository.getByIds([]);
+
+      expect(feederItems).toEqual([
+        {
+          ...itemData1,
+          markedAsRead: true,
+          updatedAt: Intl.DateTimeFormat().format(new Date(UPDATED_AT)),
+        },
+        {
+          ...itemData2,
+          markedAsRead: false,
+        },
+      ]);
+    });
+
     it("no matching items", async () => {
       const queryRepository = new QueryRepository(kv);
       const FEED_URL = "https:example.com";
