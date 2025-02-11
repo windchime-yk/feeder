@@ -8,6 +8,6 @@ export class FeederQuery {
 
   /** Retrieve one Feed based on GUID */
   getById(id: string): Promise<FeedItem> {
-    throw new Error("Method not implemented.");
+    return this.queryRepository.getById(id);
   }
 }
