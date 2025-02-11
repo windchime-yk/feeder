@@ -10,7 +10,7 @@ export class QueryRepository implements QueryRepositoryInterface {
   constructor(private readonly kv: Deno.Kv) {}
 
   async getByIdOrThrow(feed: string, id: string): Promise<FeederItem> {
-    const item = await this.kv.get<Omit<FeedItem, "markedAsRead">>([
+    const item = await this.kv.get<FeedItem>([
       "feed",
       feed,
       id,
