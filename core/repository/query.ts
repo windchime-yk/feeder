@@ -1,4 +1,5 @@
 import {
+  ByIdsOption,
   FeederItem,
   FeedItem,
   MarkAsReadItem,
@@ -24,7 +25,7 @@ export class QueryRepository implements QueryRepositoryInterface {
     };
   }
 
-  getByIds(ids: string[]): Promise<FeederItem[]> {
+  getByIds(options: ByIdsOption[]): Promise<FeederItem[]> {
     throw new Error("Method not implemented.");
   }
 
