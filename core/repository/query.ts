@@ -25,8 +25,27 @@ export class QueryRepository implements QueryRepositoryInterface {
     };
   }
 
-  getByIds(options: ByIdsOption[]): Promise<FeederItem[]> {
-    throw new Error("Method not implemented.");
+  async getByIds(options: ByIdsOption[]): Promise<FeederItem[]> {
+    const feeds: FeederItem[] = [];
+
+    for await (const opt of options) {
+      const item = await this.kv.get<FeedItem>([
+        "feed",
+        opt.feed,
+        opt.id,
+      ]);
+
+      if (!item.value) continue;
+
+      const markAsReadItem = await this.getMarkAsReadItemById(opt.feed, opt.id);
+
+      feeds.push({
+        ...item.value,
+        ...markAsReadItem,
+      });
+    }
+
+    return feeds;
   }
 
   private async getMarkAsReadItemById(
