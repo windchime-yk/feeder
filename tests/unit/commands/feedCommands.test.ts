@@ -5,8 +5,8 @@ import type {
   UpdateFeedCommand,
   DeleteFeedCommand,
   RefreshFeedCommand,
-} from "../../../src/application/commands/feedCommands.ts";
-import { FeedId } from "../../../src/domain/types.ts";
+} from "../../../core/application/commands/feedCommands.ts";
+import { FeedId } from "../../../core/domain/types.ts";
 
 describe("Feed Commands", () => {
   describe("AddFeedCommand", () => {

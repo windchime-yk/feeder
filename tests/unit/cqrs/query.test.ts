@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import type { Query, QueryHandler } from "../../../src/cqrs/interfaces/Query.ts";
+import type { Query, QueryHandler } from "../../../core/cqrs/interfaces/Query.ts";
 
 describe("CQRS Query interfaces", () => {
   describe("Query interface", () => {

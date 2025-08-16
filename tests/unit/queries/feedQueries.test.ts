@@ -7,8 +7,8 @@ import type {
   FeedReadModel,
   FeedSummaryReadModel,
   FeedItemReadModel,
-} from "../../../src/application/queries/feedQueries.ts";
-import { FeedId } from "../../../src/domain/types.ts";
+} from "../../../core/application/queries/feedQueries.ts";
+import { FeedId } from "../../../core/domain/types.ts";
 
 describe("Feed Queries", () => {
   describe("GetFeedQuery", () => {

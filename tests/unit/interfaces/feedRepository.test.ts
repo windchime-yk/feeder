@@ -3,14 +3,14 @@ import { describe, it } from "@std/testing/bdd";
 import type {
   FeedWriteRepository,
   FeedReadRepository,
-} from "../../../src/domain/interfaces/feedRepository.ts";
-import type { Feed } from "../../../src/domain/types.ts";
-import { FeedId } from "../../../src/domain/types.ts";
+} from "../../../core/domain/interfaces/feedRepository.ts";
+import type { Feed } from "../../../core/domain/types.ts";
+import { FeedId } from "../../../core/domain/types.ts";
 import type {
   FeedReadModel,
   FeedSummaryReadModel,
   FeedItemReadModel,
-} from "../../../src/application/queries/feedQueries.ts";
+} from "../../../core/application/queries/feedQueries.ts";
 
 describe("FeedRepository interfaces", () => {
   describe("FeedWriteRepository", () => {

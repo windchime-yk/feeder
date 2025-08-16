@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import type { Command, CommandHandler } from "../../../src/cqrs/interfaces/Command.ts";
+import type { Command, CommandHandler } from "../../../core/cqrs/interfaces/Command.ts";
 
 describe("CQRS Command interfaces", () => {
   describe("Command interface", () => {
