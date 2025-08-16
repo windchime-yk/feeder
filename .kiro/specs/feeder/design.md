@@ -4,30 +4,41 @@
 
 The RSS Feed Library is designed as a modular, domain-driven solution for Deno
 applications that need to parse, manage, and persist RSS feed data. The
-architecture follows DDD principles with clear separation between domain logic,
-application services, and infrastructure concerns. Deno KV serves as the
-persistence layer, providing a lightweight yet robust storage solution.
+architecture follows DDD principles with CQRS (Command Query Responsibility Segregation)
+pattern, providing clear separation between write operations (commands) and read
+operations (queries). This separation allows for optimized performance, scalability,
+and maintainability. Deno KV serves as the persistence layer for both write and
+read models, providing a lightweight yet robust storage solution.
 
 ## Architecture
 
-The library follows a layered architecture pattern:
+The library follows a CQRS-based layered architecture pattern:
 
 ```
-┌─────────────────────────────────────┐
-│           Application Layer         │
-│  (Feed Services, Use Cases)         │
-├─────────────────────────────────────┤
-│            Domain Layer             │
-│  (Entities, Value Objects, Rules)   │
-├─────────────────────────────────────┤
-│         Infrastructure Layer        │
-│  (Repositories, External Services)  │
-└─────────────────────────────────────┘
+┌─────────────────────────────────────────────────────────────┐
+│                    Application Layer                        │
+│  ┌─────────────────────┐    ┌─────────────────────────────┐ │
+│  │   Command Side      │    │        Query Side           │ │
+│  │ (Command Handlers)  │    │    (Query Handlers)         │ │
+│  └─────────────────────┘    └─────────────────────────────┘ │
+├─────────────────────────────────────────────────────────────┤
+│                      Domain Layer                           │
+│  (Entities, Value Objects, Domain Events, Business Rules)   │
+├─────────────────────────────────────────────────────────────┤
+│                   Infrastructure Layer                      │
+│  ┌─────────────────────┐    ┌─────────────────────────────┐ │
+│  │   Write Model       │    │       Read Model            │ │
+│  │  (Event Store,      │    │   (Query Repositories,      │ │
+│  │   Repositories)     │    │    Projections)             │ │
+│  └─────────────────────┘    └─────────────────────────────┘ │
+└─────────────────────────────────────────────────────────────┘
 ```
 
 ### Core Principles
 
 - **Domain-Driven Design**: Clear domain models and business logic separation
+- **CQRS**: Separate command and query responsibilities for optimal performance
+- **Event-Driven Architecture**: Domain events drive read model updates
 - **Dependency Inversion**: Infrastructure depends on domain abstractions
 - **Single Responsibility**: Each component has a focused purpose
 - **Test-Driven Development**: Comprehensive test coverage for reliability
@@ -73,36 +84,186 @@ class FeedItem {
 
 ### Application Layer
 
-#### FeedService
+#### Command Side
+
+##### Commands
 
 ```typescript
-interface FeedService {
-  parseFeed(url: string): Promise<Feed>;
-  saveFeed(feed: Feed): Promise<void>;
-  getFeed(id: FeedId): Promise<Feed | null>;
-  getAllFeeds(): Promise<Feed[]>;
-  updateFeed(id: FeedId): Promise<Feed>;
-  deleteFeed(id: FeedId): Promise<void>;
+interface AddFeedCommand {
+  url: string;
+  userId?: string;
+}
+
+interface UpdateFeedCommand {
+  feedId: FeedId;
+  url?: string;
+}
+
+interface DeleteFeedCommand {
+  feedId: FeedId;
+}
+
+interface RefreshFeedCommand {
+  feedId: FeedId;
+}
+```
+
+##### Command Handlers
+
+```typescript
+interface CommandHandler<T> {
+  handle(command: T): Promise<void>;
+}
+
+interface AddFeedCommandHandler extends CommandHandler<AddFeedCommand> {}
+interface UpdateFeedCommandHandler extends CommandHandler<UpdateFeedCommand> {}
+interface DeleteFeedCommandHandler extends CommandHandler<DeleteFeedCommand> {}
+interface RefreshFeedCommandHandler extends CommandHandler<RefreshFeedCommand> {}
+```
+
+#### Query Side
+
+##### Queries
+
+```typescript
+interface GetFeedQuery {
+  feedId: FeedId;
+}
+
+interface GetAllFeedsQuery {
+  userId?: string;
+  limit?: number;
+  offset?: number;
+}
+
+interface GetFeedItemsQuery {
+  feedId: FeedId;
+  limit?: number;
+  since?: Date;
+}
+```
+
+##### Query Handlers
+
+```typescript
+interface QueryHandler<TQuery, TResult> {
+  handle(query: TQuery): Promise<TResult>;
+}
+
+interface GetFeedQueryHandler extends QueryHandler<GetFeedQuery, FeedReadModel | null> {}
+interface GetAllFeedsQueryHandler extends QueryHandler<GetAllFeedsQuery, FeedSummaryReadModel[]> {}
+interface GetFeedItemsQueryHandler extends QueryHandler<GetFeedItemsQuery, FeedItemReadModel[]> {}
+```
+
+##### Read Models
+
+```typescript
+interface FeedReadModel {
+  id: string;
+  url: string;
+  title: string;
+  description: string;
+  lastUpdated: Date;
+  itemCount: number;
+}
+
+interface FeedSummaryReadModel {
+  id: string;
+  title: string;
+  url: string;
+  lastUpdated: Date;
+  itemCount: number;
+}
+
+interface FeedItemReadModel {
+  id: string;
+  feedId: string;
+  title: string;
+  description: string;
+  link: string;
+  publishedDate: Date;
+  guid: string;
 }
 ```
 
 ### Infrastructure Layer
 
-#### FeedRepository Interface
+#### Write Side Repositories
 
 ```typescript
-interface FeedRepository {
+interface FeedWriteRepository {
   save(feed: Feed): Promise<void>;
   findById(id: FeedId): Promise<Feed | null>;
-  findAll(): Promise<Feed[]>;
   delete(id: FeedId): Promise<void>;
+}
+
+interface EventStore {
+  saveEvents(aggregateId: string, events: DomainEvent[], expectedVersion: number): Promise<void>;
+  getEvents(aggregateId: string): Promise<DomainEvent[]>;
 }
 ```
 
-#### DenoKVFeedRepository Implementation
+#### Read Side Repositories
 
-Concrete implementation using Deno KV for persistence with optimized key
-structures and efficient querying.
+```typescript
+interface FeedReadRepository {
+  getFeed(id: FeedId): Promise<FeedReadModel | null>;
+  getAllFeeds(userId?: string, limit?: number, offset?: number): Promise<FeedSummaryReadModel[]>;
+  getFeedItems(feedId: FeedId, limit?: number, since?: Date): Promise<FeedItemReadModel[]>;
+}
+```
+
+#### Domain Events
+
+```typescript
+interface DomainEvent {
+  aggregateId: string;
+  eventType: string;
+  eventData: any;
+  timestamp: Date;
+  version: number;
+}
+
+interface FeedAddedEvent extends DomainEvent {
+  eventType: 'FeedAdded';
+  eventData: {
+    feedId: string;
+    url: string;
+    title: string;
+    description: string;
+  };
+}
+
+interface FeedUpdatedEvent extends DomainEvent {
+  eventType: 'FeedUpdated';
+  eventData: {
+    feedId: string;
+    newItems: FeedItemData[];
+    lastUpdated: Date;
+  };
+}
+
+interface FeedDeletedEvent extends DomainEvent {
+  eventType: 'FeedDeleted';
+  eventData: {
+    feedId: string;
+  };
+}
+```
+
+#### Event Handlers / Projections
+
+```typescript
+interface EventHandler<T extends DomainEvent> {
+  handle(event: T): Promise<void>;
+}
+
+interface FeedProjectionHandler {
+  handleFeedAdded(event: FeedAddedEvent): Promise<void>;
+  handleFeedUpdated(event: FeedUpdatedEvent): Promise<void>;
+  handleFeedDeleted(event: FeedDeletedEvent): Promise<void>;
+}
+```
 
 #### RSSParser
 
@@ -116,36 +277,81 @@ interface RSSParser {
 
 ### Storage Schema (Deno KV)
 
-#### Feed Storage
+#### Write Model Storage
 
-- Key: `["feeds", feedId]`
-- Value: Serialized Feed entity with metadata and items
+- Key: `["write_model", "feeds", feedId]`
+- Value: Serialized Feed aggregate with full domain data
 
-#### Feed Index
+#### Event Store
 
-- Key: `["feed_urls", url]` → `feedId`
-- Purpose: Prevent duplicate URLs and enable URL-based lookups
+- Key: `["events", aggregateId, version]`
+- Value: Serialized domain event
+- Key: `["event_stream", aggregateId]`
+- Value: Array of event versions for aggregate
 
-#### Feed List
+#### Read Model Storage
 
-- Key: `["feed_list"]`
-- Value: Array of feed IDs for efficient listing
+##### Feed Read Models
+- Key: `["read_model", "feeds", feedId]`
+- Value: Optimized FeedReadModel for queries
+
+##### Feed Summary Read Models
+- Key: `["read_model", "feed_summaries", feedId]`
+- Value: Lightweight FeedSummaryReadModel for listing
+
+##### Feed Items Read Models
+- Key: `["read_model", "feed_items", feedId, itemId]`
+- Value: FeedItemReadModel for item queries
+
+##### Indexes
+- Key: `["read_model", "indexes", "feeds_by_user", userId, feedId]`
+- Value: feedId (for user-specific feed queries)
+- Key: `["read_model", "indexes", "items_by_date", feedId, publishedDate, itemId]`
+- Value: itemId (for chronological item queries)
 
 ### Data Flow
 
+#### Command Flow
 ```mermaid
 graph TD
-    A[Client Request] --> B[FeedService]
-    B --> C{Operation Type}
-    C -->|Parse| D[RSSParser]
-    C -->|Store/Retrieve| E[FeedRepository]
-    D --> F[HTTP Client]
-    F --> G[RSS Feed URL]
-    E --> H[Deno KV]
-    D --> I[Domain Entities]
-    E --> I
-    I --> B
+    A[Client Command] --> B[Command Handler]
+    B --> C[Domain Aggregate]
+    C --> D[Business Logic Validation]
+    D --> E[Domain Events]
+    E --> F[Event Store]
+    E --> G[Event Handlers]
+    G --> H[Read Model Updates]
+    H --> I[Read Repository]
+    F --> J[Write Repository]
+    J --> K[Deno KV Write Model]
+    I --> L[Deno KV Read Model]
+```
+
+#### Query Flow
+```mermaid
+graph TD
+    A[Client Query] --> B[Query Handler]
+    B --> C[Read Repository]
+    C --> D[Deno KV Read Model]
+    D --> E[Read Model Data]
+    E --> B
     B --> A
+```
+
+#### RSS Parsing Flow
+```mermaid
+graph TD
+    A[Refresh Command] --> B[Command Handler]
+    B --> C[RSS Parser]
+    C --> D[HTTP Client]
+    D --> E[RSS Feed URL]
+    E --> F[XML Content]
+    F --> C
+    C --> G[Parsed Feed Data]
+    G --> H[Domain Aggregate]
+    H --> I[Feed Updated Event]
+    I --> J[Event Handlers]
+    J --> K[Read Model Updates]
 ```
 
 ## Error Handling

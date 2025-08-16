@@ -5,9 +5,11 @@
 This document outlines the requirements for an RSS feed library designed for
 Deno applications. The library will provide comprehensive RSS feed parsing,
 management, and storage capabilities using Deno KV as the persistence layer. The
-implementation will follow Domain-Driven Design (DDD) principles for clean
-architecture and Test-Driven Development (TDD) practices for reliable code
-quality.
+implementation will follow Domain-Driven Design (DDD) principles with Command Query
+Responsibility Segregation (CQRS) pattern for clean architecture and Test-Driven
+Development (TDD) practices for reliable code quality. CQRS will separate write
+operations (commands) from read operations (queries) to optimize performance and
+maintainability.
 
 ## Requirements
 
@@ -60,8 +62,8 @@ can organize and track different content sources.
 
 ### Requirement 4
 
-**User Story:** As a developer, I want the library to follow DDD principles, so
-that the code is maintainable and follows clean architecture patterns.
+**User Story:** As a developer, I want the library to follow DDD principles with CQRS pattern, so
+that the code is maintainable, scalable, and follows clean architecture patterns.
 
 #### Acceptance Criteria
 
@@ -72,9 +74,35 @@ that the code is maintainable and follows clean architecture patterns.
 3. WHEN implementing repositories THEN the system SHALL use interfaces to
    abstract storage implementation
 4. WHEN organizing code THEN the system SHALL structure modules according to DDD
-   layered architecture
+   layered architecture with CQRS separation
+5. WHEN handling write operations THEN the system SHALL use command handlers
+   that process commands and emit domain events
+6. WHEN handling read operations THEN the system SHALL use query handlers
+   that return optimized read models
+7. WHEN processing commands THEN the system SHALL validate business rules
+   and update the write model
+8. WHEN processing queries THEN the system SHALL return data from optimized
+   read models without business logic
 
 ### Requirement 5
+
+**User Story:** As a developer, I want to handle commands and queries separately, so that
+I can optimize write and read operations independently.
+
+#### Acceptance Criteria
+
+1. WHEN executing write operations THEN the system SHALL use command handlers
+   that validate and process commands
+2. WHEN executing read operations THEN the system SHALL use query handlers
+   that return optimized data views
+3. WHEN a command is processed successfully THEN the system SHALL emit
+   domain events for other components to react
+4. WHEN updating data THEN the system SHALL maintain separate write and
+   read models for optimal performance
+5. WHEN querying data THEN the system SHALL return denormalized read models
+   optimized for specific use cases
+
+### Requirement 6
 
 **User Story:** As a developer, I want comprehensive test coverage, so that I
 can trust the library's reliability and behavior.
@@ -89,3 +117,5 @@ can trust the library's reliability and behavior.
    tests for Deno KV operations
 4. WHEN running tests THEN the system SHALL use Deno's built-in testing
    framework
+5. WHEN testing CQRS components THEN the system SHALL test command handlers
+   and query handlers separately
