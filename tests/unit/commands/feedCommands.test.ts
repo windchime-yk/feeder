@@ -6,7 +6,7 @@ import type {
   DeleteFeedCommand,
   RefreshFeedCommand,
 } from "../../../src/application/commands/feedCommands.ts";
-import type { FeedId } from "../../../src/domain/types.ts";
+import { FeedId } from "../../../src/domain/types.ts";
 
 describe("Feed Commands", () => {
   describe("AddFeedCommand", () => {
@@ -25,39 +25,42 @@ describe("Feed Commands", () => {
 
   describe("UpdateFeedCommand", () => {
     it("should have correct structure", () => {
+      const feedId = FeedId.create("feed-123");
       const command: UpdateFeedCommand = {
         commandType: "UpdateFeed",
-        feedId: "feed-123" as FeedId,
+        feedId: feedId,
         url: "https://example.com/updated-feed.xml",
       };
 
       assertEquals(command.commandType, "UpdateFeed");
-      assertEquals(command.feedId, "feed-123");
+      assertEquals(command.feedId, feedId);
       assertEquals(command.url, "https://example.com/updated-feed.xml");
     });
   });
 
   describe("DeleteFeedCommand", () => {
     it("should have correct structure", () => {
+      const feedId = FeedId.create("feed-123");
       const command: DeleteFeedCommand = {
         commandType: "DeleteFeed",
-        feedId: "feed-123" as FeedId,
+        feedId: feedId,
       };
 
       assertEquals(command.commandType, "DeleteFeed");
-      assertEquals(command.feedId, "feed-123");
+      assertEquals(command.feedId, feedId);
     });
   });
 
   describe("RefreshFeedCommand", () => {
     it("should have correct structure", () => {
+      const feedId = FeedId.create("feed-123");
       const command: RefreshFeedCommand = {
         commandType: "RefreshFeed",
-        feedId: "feed-123" as FeedId,
+        feedId: feedId,
       };
 
       assertEquals(command.commandType, "RefreshFeed");
-      assertEquals(command.feedId, "feed-123");
+      assertEquals(command.feedId, feedId);
     });
   });
 
@@ -68,19 +71,21 @@ describe("Feed Commands", () => {
         url: "https://example.com/feed.xml",
       };
 
+      const feedId = FeedId.create("feed-123");
+      
       const updateCommand: UpdateFeedCommand = {
         commandType: "UpdateFeed",
-        feedId: "feed-123" as FeedId,
+        feedId: feedId,
       };
 
       const deleteCommand: DeleteFeedCommand = {
         commandType: "DeleteFeed",
-        feedId: "feed-123" as FeedId,
+        feedId: feedId,
       };
 
       const refreshCommand: RefreshFeedCommand = {
         commandType: "RefreshFeed",
-        feedId: "feed-123" as FeedId,
+        feedId: feedId,
       };
 
       // All commands should have commandType property

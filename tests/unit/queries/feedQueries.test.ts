@@ -8,18 +8,19 @@ import type {
   FeedSummaryReadModel,
   FeedItemReadModel,
 } from "../../../src/application/queries/feedQueries.ts";
-import type { FeedId } from "../../../src/domain/types.ts";
+import { FeedId } from "../../../src/domain/types.ts";
 
 describe("Feed Queries", () => {
   describe("GetFeedQuery", () => {
     it("should have correct structure", () => {
+      const feedId = FeedId.create("feed-123");
       const query: GetFeedQuery = {
         queryType: "GetFeed",
-        feedId: "feed-123" as FeedId,
+        feedId: feedId,
       };
 
       assertEquals(query.queryType, "GetFeed");
-      assertEquals(query.feedId, "feed-123");
+      assertEquals(query.feedId, feedId);
     });
   });
 
@@ -42,15 +43,16 @@ describe("Feed Queries", () => {
   describe("GetFeedItemsQuery", () => {
     it("should have correct structure", () => {
       const since = new Date();
+      const feedId = FeedId.create("feed-123");
       const query: GetFeedItemsQuery = {
         queryType: "GetFeedItems",
-        feedId: "feed-123" as FeedId,
+        feedId: feedId,
         limit: 20,
         since,
       };
 
       assertEquals(query.queryType, "GetFeedItems");
-      assertEquals(query.feedId, "feed-123");
+      assertEquals(query.feedId, feedId);
       assertEquals(query.limit, 20);
       assertEquals(query.since, since);
     });
@@ -120,18 +122,22 @@ describe("Feed Queries", () => {
 
   describe("Query interface compliance", () => {
     it("should extend base Query interface", () => {
+      const testFeedId = FeedId.create("feed-123");
+      
       const getFeedQuery: GetFeedQuery = {
         queryType: "GetFeed",
-        feedId: "feed-123" as FeedId,
+        feedId: testFeedId,
       };
 
       const getAllFeedsQuery: GetAllFeedsQuery = {
         queryType: "GetAllFeeds",
       };
 
+      const testFeedId2 = FeedId.create("feed-123");
+      
       const getFeedItemsQuery: GetFeedItemsQuery = {
         queryType: "GetFeedItems",
-        feedId: "feed-123" as FeedId,
+        feedId: testFeedId2,
       };
 
       // All queries should have queryType property

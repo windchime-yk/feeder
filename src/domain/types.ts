@@ -1,11 +1,21 @@
 /**
- * Temporary type definitions for core domain types.
- * These will be replaced with proper implementations in subsequent tasks.
+ * Core domain types and exports
  */
 
-// Placeholder types for entities and value objects
+// Value objects
+export { FeedId } from "./valueObjects/feedId.ts";
+export { FeedItemId } from "./valueObjects/feedItemId.ts";
+
+// Domain errors
+export { 
+  DomainError, 
+  ValueObjectValidationError, 
+  ValueObjectErrorCodes,
+  type ValueObjectErrorCode 
+} from "./errors/mod.ts";
+
+// Placeholder types for entities and value objects (to be implemented in subsequent tasks)
 export type Feed = unknown;
 export type FeedItem = unknown;
-export type FeedId = unknown;
 export type FeedUrl = unknown;
 export type FeedMetadata = unknown;

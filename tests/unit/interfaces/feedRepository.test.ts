@@ -4,7 +4,8 @@ import type {
   FeedWriteRepository,
   FeedReadRepository,
 } from "../../../src/domain/interfaces/feedRepository.ts";
-import type { Feed, FeedId } from "../../../src/domain/types.ts";
+import type { Feed } from "../../../src/domain/types.ts";
+import { FeedId } from "../../../src/domain/types.ts";
 import type {
   FeedReadModel,
   FeedSummaryReadModel,
@@ -101,7 +102,8 @@ describe("FeedRepository interfaces", () => {
       };
 
       // Test that repositories serve different purposes
-      const feedReadModel = await readRepo.getFeed("test-id" as FeedId);
+      const testFeedId = FeedId.create("test-id");
+      const feedReadModel = await readRepo.getFeed(testFeedId);
       assertEquals(feedReadModel?.title, "Test Feed");
 
       const feedSummaries = await readRepo.getAllFeeds();
