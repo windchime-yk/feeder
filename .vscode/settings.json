@@ -1,3 +1,4 @@
 {
+  "deno.enable": true,
   "kiroAgent.configureMCP": "Enabled"
 }

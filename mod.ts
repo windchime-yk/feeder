@@ -6,13 +6,13 @@
  */
 
 // Re-export main interfaces and types
-export type { FeedService } from "./src/application/services/FeedService.ts";
-export type { FeedRepository } from "./src/domain/interfaces/FeedRepository.ts";
+export type { FeedService } from "./src/application/services/feedService.ts";
+export type { FeedWriteRepository, FeedReadRepository } from "./src/domain/interfaces/feedRepository.ts";
 export type {
   ParsedFeedData,
   ParsedFeedItem,
   RSSParser,
-} from "./src/domain/interfaces/RSSParser.ts";
+} from "./src/domain/interfaces/rssParser.ts";
 
 // Domain entities and value objects will be exported as they are implemented
 // export { Feed } from "./src/domain/entities/Feed.ts";
