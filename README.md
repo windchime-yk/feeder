@@ -6,7 +6,7 @@ Domain-Driven Design principles and Deno KV persistence.
 ## Project Structure
 
 ```
-src/
+core/
 ├── domain/                 # Domain layer - core business logic
 │   ├── entities/          # Business entities (Feed, FeedItem)
 │   ├── value-objects/     # Immutable value objects (FeedId, FeedUrl, etc.)

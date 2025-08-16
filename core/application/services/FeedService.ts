@@ -12,10 +12,10 @@
  * - getAllFeeds -> GetAllFeedsQuery + GetAllFeedsQueryHandler
  *
  * See:
- * - src/application/commands/FeedCommands.ts
- * - src/application/queries/FeedQueries.ts
- * - src/application/handlers/CommandHandlers.ts
- * - src/application/handlers/QueryHandlers.ts
+ * - core/application/commands/FeedCommands.ts
+ * - core/application/queries/FeedQueries.ts
+ * - core/application/handlers/CommandHandlers.ts
+ * - core/application/handlers/QueryHandlers.ts
  */
 
 import type { Feed, FeedId } from "../../domain/types.ts";

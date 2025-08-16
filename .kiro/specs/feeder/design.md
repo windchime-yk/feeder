@@ -47,12 +47,12 @@ The library follows a CQRS-based layered architecture pattern:
 
 ### CQRS Infrastructure Layer
 
-The CQRS infrastructure is located in `src/cqrs/` and provides the foundational interfaces and components for implementing the CQRS pattern:
+The CQRS infrastructure is located in `core/cqrs/` and provides the foundational interfaces and components for implementing the CQRS pattern:
 
 #### Core CQRS Interfaces
 
 ```typescript
-// Command interfaces (src/cqrs/interfaces/Command.ts)
+// Command interfaces (core/cqrs/interfaces/Command.ts)
 interface Command {
   readonly commandType: string;
 }
@@ -61,7 +61,7 @@ interface CommandHandler<TCommand extends Command> {
   handle(command: TCommand): Promise<void>;
 }
 
-// Query interfaces (src/cqrs/interfaces/Query.ts)
+// Query interfaces (core/cqrs/interfaces/Query.ts)
 interface Query<TResult = any> {
   readonly queryType: string;
 }
@@ -70,7 +70,7 @@ interface QueryHandler<TQuery extends Query<TResult>, TResult = any> {
   handle(query: TQuery): Promise<TResult>;
 }
 
-// Event interfaces (src/cqrs/interfaces/Event.ts)
+// Event interfaces (core/cqrs/interfaces/Event.ts)
 interface DomainEvent {
   readonly aggregateId: string;
   readonly eventType: string;
@@ -87,7 +87,7 @@ interface EventHandler<TEvent extends DomainEvent> {
 #### CQRS Buses
 
 ```typescript
-// Command Bus (src/cqrs/buses/CommandBus.ts)
+// Command Bus (core/cqrs/buses/CommandBus.ts)
 interface CommandBus {
   register<TCommand extends Command>(
     commandType: string,
@@ -96,7 +96,7 @@ interface CommandBus {
   execute<TCommand extends Command>(command: TCommand): Promise<void>;
 }
 
-// Query Bus (src/cqrs/buses/QueryBus.ts)
+// Query Bus (core/cqrs/buses/QueryBus.ts)
 interface QueryBus {
   register<TQuery extends Query<TResult>, TResult>(
     queryType: string,
@@ -357,7 +357,7 @@ interface RSSParser {
 The CQRS implementation follows this structure:
 
 ```
-src/
+core/
 ├── cqrs/                    # CQRS infrastructure
 │   ├── interfaces/          # Core CQRS interfaces
 │   │   ├── command.ts       # Command and CommandHandler interfaces
