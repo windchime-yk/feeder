@@ -354,15 +354,18 @@ interface RSSParser {
 
 ### Directory Structure
 
-The CQRS implementation follows this structure:
+The CQRS implementation follows this structure with tests adjacent to implementation files:
 
 ```
 core/
 ├── cqrs/                    # CQRS infrastructure
 │   ├── interfaces/          # Core CQRS interfaces
 │   │   ├── command.ts       # Command and CommandHandler interfaces
+│   │   ├── command.test.ts  # Command interface tests
 │   │   ├── query.ts         # Query and QueryHandler interfaces
+│   │   ├── query.test.ts    # Query interface tests
 │   │   ├── event.ts         # DomainEvent and EventHandler interfaces
+│   │   ├── event.test.ts    # Event interface tests
 │   │   └── eventStore.ts    # EventStore interface
 │   ├── buses/               # Command and Query buses
 │   │   ├── commandBus.ts    # Command routing
@@ -372,21 +375,30 @@ core/
 │   ├── entities/            # Domain entities
 │   ├── events/              # Domain events
 │   │   └── feedEvents.ts    # Feed-related domain events
+│   ├── valueObjects/        # Value objects
+│   │   ├── feedId.ts        # FeedId value object
+│   │   ├── feedId.test.ts   # FeedId tests
+│   │   ├── feedItemId.ts    # FeedItemId value object
+│   │   ├── feedItemId.test.ts # FeedItemId tests
+│   │   ├── valueObject.ts   # Base value object
+│   │   └── valueObject.test.ts # Base value object tests
 │   └── interfaces/          # Domain interfaces
 │       ├── feedRepository.ts # Feed repository interfaces
+│       ├── feedRepository.test.ts # Repository interface tests
 │       └── rssParser.ts     # RSS parser interface
 ├── application/             # Application layer
 │   ├── commands/            # Command definitions
-│   │   └── feedCommands.ts  # Feed command definitions
+│   │   ├── feedCommands.ts  # Feed command definitions
+│   │   └── feedCommands.test.ts # Feed command tests
 │   ├── queries/             # Query definitions
-│   │   └── feedQueries.ts   # Feed query definitions
-│   ├── handlers/            # Command and query handlers
-│   │   ├── commandHandlers.ts # Command handler interfaces
-│   │   ├── queryHandlers.ts   # Query handler interfaces
-│   │   └── eventHandlers.ts   # Event handler interfaces
-│   └── services/            # Application services (deprecated)
-│       └── feedService.ts   # Legacy feed service (deprecated)
+│   │   ├── feedQueries.ts   # Feed query definitions
+│   │   └── feedQueries.test.ts # Feed query tests
+│   └── handlers/            # Command and query handlers
+│       ├── commandHandlers.ts # Command handler interfaces
+│       ├── queryHandlers.ts   # Query handler interfaces
+│       └── eventHandlers.ts   # Event handler interfaces
 └── infrastructure/          # Infrastructure layer
+    ├── parsers/             # RSS parsing implementations
     └── repositories/        # Repository implementations
 ```
 
@@ -512,18 +524,44 @@ graph TD
 
 ### Test Structure
 
+Tests are organized adjacent to their implementation files using the `.test.ts` suffix:
+
 ```
-tests/
-├── unit/
-│   ├── domain/
-│   ├── application/
-│   └── infrastructure/
-├── integration/
-│   ├── storage/
-│   └── parsing/
-└── fixtures/
-    └── sample-feeds/
+core/
+├── cqrs/
+│   ├── interfaces/
+│   │   ├── command.ts
+│   │   ├── command.test.ts      # Tests adjacent to implementation
+│   │   ├── query.ts
+│   │   ├── query.test.ts        # Tests adjacent to implementation
+│   │   └── event.test.ts        # Tests adjacent to implementation
+│   └── buses/
+│       ├── commandBus.ts
+│       └── commandBus.test.ts   # Tests adjacent to implementation
+├── domain/
+│   ├── valueObjects/
+│   │   ├── feedId.ts
+│   │   ├── feedId.test.ts       # Tests adjacent to implementation
+│   │   ├── valueObject.ts
+│   │   └── valueObject.test.ts  # Tests adjacent to implementation
+│   └── interfaces/
+│       ├── feedRepository.ts
+│       └── feedRepository.test.ts # Tests adjacent to implementation
+└── application/
+    ├── commands/
+    │   ├── feedCommands.ts
+    │   └── feedCommands.test.ts # Tests adjacent to implementation
+    └── queries/
+        ├── feedQueries.ts
+        └── feedQueries.test.ts  # Tests adjacent to implementation
 ```
+
+#### Test File Placement Guidelines
+
+- **All test files MUST be placed adjacent to their corresponding implementation files**
+- **Test files MUST use the `.test.ts` suffix** (e.g., `feedId.test.ts` for `feedId.ts`)
+- **Integration test fixtures and shared test utilities** can be placed in a separate `tests/` directory at the project root if needed
+- **Each implementation file should have its corresponding test file in the same directory**
 
 ### Testing Tools
 

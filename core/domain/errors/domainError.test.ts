@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { DomainError } from "../../../../core/domain/errors/domainError.ts";
+import { DomainError } from "./domainError.ts";
 
 // Test implementation of DomainError for testing purposes
 class TestDomainError extends DomainError {

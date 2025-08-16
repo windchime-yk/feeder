@@ -1,6 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { ValueObject } from "../../../../core/domain/valueObjects/valueObject.ts";
+import { ValueObject } from "./valueObject.ts";
 
 // Test implementation of ValueObject for testing purposes
 class TestValueObject extends ValueObject<string> {

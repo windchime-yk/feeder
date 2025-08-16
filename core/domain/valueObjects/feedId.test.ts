@@ -1,10 +1,10 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { FeedId } from "../../../../core/domain/valueObjects/feedId.ts";
+import { FeedId } from "./feedId.ts";
 import {
   ValueObjectErrorCodes,
   ValueObjectValidationError,
-} from "../../../../core/domain/errors/valueObjectError.ts";
+} from "../errors/valueObjectError.ts";
 
 describe("FeedId", () => {
   describe("creation", () => {

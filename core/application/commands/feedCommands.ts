@@ -1,4 +1,4 @@
-import type { Command } from "../../cqrs/interfaces/Command.ts";
+import type { Command } from "../../cqrs/interfaces/command.ts";
 import type { FeedId } from "../../domain/types.ts";
 
 /**

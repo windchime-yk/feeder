@@ -1,9 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import type {
-  Query,
-  QueryHandler,
-} from "../../../core/cqrs/interfaces/Query.ts";
+import type { Query, QueryHandler } from "./query.ts";
 
 describe("CQRS Query interfaces", () => {
   describe("Query interface", () => {
@@ -19,9 +16,9 @@ describe("CQRS Query interfaces", () => {
   describe("QueryHandler interface", () => {
     it("should handle queries and return results", async () => {
       const mockHandler: QueryHandler<Query<string>, string> = {
-        async handle(query: Query<string>): Promise<string> {
+        handle(query: Query<string>): Promise<string> {
           assertEquals(query.queryType, "TestQuery");
-          return "test result";
+          return Promise.resolve("test result");
         },
       };
 

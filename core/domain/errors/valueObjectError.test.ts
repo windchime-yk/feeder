@@ -3,8 +3,8 @@ import { describe, it } from "@std/testing/bdd";
 import {
   ValueObjectErrorCodes,
   ValueObjectValidationError,
-} from "../../../../core/domain/errors/valueObjectError.ts";
-import { DomainError } from "../../../../core/domain/errors/domainError.ts";
+} from "./valueObjectError.ts";
+import { DomainError } from "./domainError.ts";
 
 describe("ValueObjectValidationError", () => {
   describe("construction", () => {

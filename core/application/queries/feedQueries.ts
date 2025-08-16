@@ -1,4 +1,4 @@
-import type { Query } from "../../cqrs/interfaces/Query.ts";
+import type { Query } from "../../cqrs/interfaces/query.ts";
 import type { FeedId } from "../../domain/types.ts";
 
 /**

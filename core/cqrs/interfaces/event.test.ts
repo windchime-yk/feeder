@@ -1,9 +1,6 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import type {
-  DomainEvent,
-  EventHandler,
-} from "../../../core/cqrs/interfaces/event.ts";
+import type { DomainEvent, EventHandler } from "./event.ts";
 
 describe("CQRS Event interfaces", () => {
   describe("DomainEvent interface", () => {

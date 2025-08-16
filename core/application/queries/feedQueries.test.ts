@@ -7,8 +7,8 @@ import type {
   GetAllFeedsQuery,
   GetFeedItemsQuery,
   GetFeedQuery,
-} from "../../../core/application/queries/feedQueries.ts";
-import { FeedId } from "../../../core/domain/types.ts";
+} from "./feedQueries.ts";
+import { FeedId } from "../../domain/types.ts";
 
 describe("Feed Queries", () => {
   describe("GetFeedQuery", () => {
