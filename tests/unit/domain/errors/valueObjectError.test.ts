@@ -1,8 +1,8 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
-import { 
-  ValueObjectValidationError, 
-  ValueObjectErrorCodes 
+import {
+  ValueObjectErrorCodes,
+  ValueObjectValidationError,
 } from "../../../../core/domain/errors/valueObjectError.ts";
 import { DomainError } from "../../../../core/domain/errors/domainError.ts";
 
@@ -15,7 +15,11 @@ describe("ValueObjectValidationError", () => {
       const errorCode = ValueObjectErrorCodes.INVALID_FORMAT;
 
       // When
-      const error = new ValueObjectValidationError(message, valueObjectType, errorCode);
+      const error = new ValueObjectValidationError(
+        message,
+        valueObjectType,
+        errorCode,
+      );
 
       // Then
       assertEquals(error.message, message);
@@ -27,9 +31,9 @@ describe("ValueObjectValidationError", () => {
     it("should be an instance of DomainError", () => {
       // Given
       const error = new ValueObjectValidationError(
-        "Test message", 
-        "TestValueObject", 
-        ValueObjectErrorCodes.EMPTY_VALUE
+        "Test message",
+        "TestValueObject",
+        ValueObjectErrorCodes.EMPTY_VALUE,
       );
 
       // When & Then
@@ -47,7 +51,10 @@ describe("ValueObjectValidationError", () => {
       assertEquals(ValueObjectErrorCodes.INVALID_TYPE, "INVALID_TYPE");
       assertEquals(ValueObjectErrorCodes.TOO_LONG, "TOO_LONG");
       assertEquals(ValueObjectErrorCodes.TOO_SHORT, "TOO_SHORT");
-      assertEquals(ValueObjectErrorCodes.INVALID_CHARACTERS, "INVALID_CHARACTERS");
+      assertEquals(
+        ValueObjectErrorCodes.INVALID_CHARACTERS,
+        "INVALID_CHARACTERS",
+      );
     });
   });
 
@@ -55,9 +62,9 @@ describe("ValueObjectValidationError", () => {
     it("should clearly identify the value object type in domain", () => {
       // Given
       const error = new ValueObjectValidationError(
-        "Test message", 
-        "FeedId", 
-        ValueObjectErrorCodes.INVALID_CHARACTERS
+        "Test message",
+        "FeedId",
+        ValueObjectErrorCodes.INVALID_CHARACTERS,
       );
 
       // When
@@ -74,9 +81,9 @@ describe("ValueObjectValidationError", () => {
     it("should serialize with domain context", () => {
       // Given
       const error = new ValueObjectValidationError(
-        "Invalid characters", 
-        "FeedId", 
-        ValueObjectErrorCodes.INVALID_CHARACTERS
+        "Invalid characters",
+        "FeedId",
+        ValueObjectErrorCodes.INVALID_CHARACTERS,
       );
 
       // When

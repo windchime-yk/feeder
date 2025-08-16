@@ -1,15 +1,15 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import type {
-  FeedWriteRepository,
   FeedReadRepository,
+  FeedWriteRepository,
 } from "../../../core/domain/interfaces/feedRepository.ts";
 import type { Feed } from "../../../core/domain/types.ts";
 import { FeedId } from "../../../core/domain/types.ts";
 import type {
+  FeedItemReadModel,
   FeedReadModel,
   FeedSummaryReadModel,
-  FeedItemReadModel,
 } from "../../../core/application/queries/feedQueries.ts";
 
 describe("FeedRepository interfaces", () => {
@@ -42,10 +42,18 @@ describe("FeedRepository interfaces", () => {
         async getFeed(id: FeedId): Promise<FeedReadModel | null> {
           return null;
         },
-        async getAllFeeds(userId?: string, limit?: number, offset?: number): Promise<FeedSummaryReadModel[]> {
+        async getAllFeeds(
+          userId?: string,
+          limit?: number,
+          offset?: number,
+        ): Promise<FeedSummaryReadModel[]> {
           return [];
         },
-        async getFeedItems(feedId: FeedId, limit?: number, since?: Date): Promise<FeedItemReadModel[]> {
+        async getFeedItems(
+          feedId: FeedId,
+          limit?: number,
+          since?: Date,
+        ): Promise<FeedItemReadModel[]> {
           return [];
         },
       };

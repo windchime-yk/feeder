@@ -1,9 +1,9 @@
 import type { CommandHandler } from "../../cqrs/interfaces/command.ts";
 import type {
   AddFeedCommand,
-  UpdateFeedCommand,
   DeleteFeedCommand,
   RefreshFeedCommand,
+  UpdateFeedCommand,
 } from "../commands/feedCommands.ts";
 
 /**
@@ -14,14 +14,17 @@ export interface AddFeedCommandHandler extends CommandHandler<AddFeedCommand> {}
 /**
  * Command handler for updating existing feeds
  */
-export interface UpdateFeedCommandHandler extends CommandHandler<UpdateFeedCommand> {}
+export interface UpdateFeedCommandHandler
+  extends CommandHandler<UpdateFeedCommand> {}
 
 /**
  * Command handler for deleting feeds
  */
-export interface DeleteFeedCommandHandler extends CommandHandler<DeleteFeedCommand> {}
+export interface DeleteFeedCommandHandler
+  extends CommandHandler<DeleteFeedCommand> {}
 
 /**
  * Command handler for refreshing feeds
  */
-export interface RefreshFeedCommandHandler extends CommandHandler<RefreshFeedCommand> {}
+export interface RefreshFeedCommandHandler
+  extends CommandHandler<RefreshFeedCommand> {}

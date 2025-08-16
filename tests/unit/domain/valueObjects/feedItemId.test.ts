@@ -1,7 +1,10 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import { FeedItemId } from "../../../../core/domain/valueObjects/feedItemId.ts";
-import { ValueObjectValidationError, ValueObjectErrorCodes } from "../../../../core/domain/errors/valueObjectError.ts";
+import {
+  ValueObjectErrorCodes,
+  ValueObjectValidationError,
+} from "../../../../core/domain/errors/valueObjectError.ts";
 
 describe("FeedItemId", () => {
   describe("creation", () => {
@@ -98,7 +101,7 @@ describe("FeedItemId", () => {
       assertThrows(
         () => FeedItemId.create(emptyId),
         ValueObjectValidationError,
-        "FeedItemId must be a non-empty string"
+        "FeedItemId must be a non-empty string",
       );
     });
 
@@ -107,7 +110,7 @@ describe("FeedItemId", () => {
       assertThrows(
         () => FeedItemId.create(null as any),
         ValueObjectValidationError,
-        "FeedItemId must be a non-empty string"
+        "FeedItemId must be a non-empty string",
       );
     });
 
@@ -116,7 +119,7 @@ describe("FeedItemId", () => {
       assertThrows(
         () => FeedItemId.create(undefined as any),
         ValueObjectValidationError,
-        "FeedItemId must be a non-empty string"
+        "FeedItemId must be a non-empty string",
       );
     });
 
@@ -125,7 +128,7 @@ describe("FeedItemId", () => {
       assertThrows(
         () => FeedItemId.create(123 as any),
         ValueObjectValidationError,
-        "FeedItemId must be a non-empty string"
+        "FeedItemId must be a non-empty string",
       );
     });
 
@@ -137,7 +140,7 @@ describe("FeedItemId", () => {
       assertThrows(
         () => FeedItemId.create(longId),
         ValueObjectValidationError,
-        "FeedItemId must not exceed 255 characters"
+        "FeedItemId must not exceed 255 characters",
       );
     });
 
@@ -153,11 +156,11 @@ describe("FeedItemId", () => {
       ];
 
       // When & Then
-      invalidIds.forEach(invalidId => {
+      invalidIds.forEach((invalidId) => {
         assertThrows(
           () => FeedItemId.create(invalidId),
           ValueObjectValidationError,
-          "FeedItemId must contain only alphanumeric characters, underscores, and hyphens"
+          "FeedItemId must contain only alphanumeric characters, underscores, and hyphens",
         );
       });
     });
@@ -173,7 +176,10 @@ describe("FeedItemId", () => {
         assertEquals(error instanceof ValueObjectValidationError, true);
         const domainError = error as ValueObjectValidationError;
         assertEquals(domainError.domain, "ValueObject.FeedItemId");
-        assertEquals(domainError.errorCode, ValueObjectErrorCodes.INVALID_CHARACTERS);
+        assertEquals(
+          domainError.errorCode,
+          ValueObjectErrorCodes.INVALID_CHARACTERS,
+        );
         assertEquals(domainError.name, "ValueObjectValidationError");
       }
     });
@@ -191,7 +197,7 @@ describe("FeedItemId", () => {
       ];
 
       // When & Then
-      validIds.forEach(validId => {
+      validIds.forEach((validId) => {
         const feedItemId = FeedItemId.create(validId);
         assertEquals(feedItemId.value, validId);
       });

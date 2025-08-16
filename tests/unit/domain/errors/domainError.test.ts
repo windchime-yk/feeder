@@ -66,7 +66,10 @@ describe("DomainError", () => {
       const stringValue = error.toString();
 
       // Then
-      assertEquals(stringValue, "TestDomainError [TestDomain:TEST_ERROR]: Test error message");
+      assertEquals(
+        stringValue,
+        "TestDomainError [TestDomain:TEST_ERROR]: Test error message",
+      );
     });
   });
 

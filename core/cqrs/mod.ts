@@ -1,6 +1,6 @@
 /**
  * CQRS (Command Query Responsibility Segregation) infrastructure
- * 
+ *
  * This module provides the core CQRS interfaces and infrastructure
  * components needed to implement the CQRS pattern in the RSS feed library.
  */
@@ -8,7 +8,7 @@
 // Command interfaces
 export type { Command, CommandHandler } from "./interfaces/command.ts";
 
-// Query interfaces  
+// Query interfaces
 export type { Query, QueryHandler } from "./interfaces/query.ts";
 
 // Event interfaces

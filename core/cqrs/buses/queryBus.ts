@@ -9,11 +9,13 @@ export interface QueryBus {
    */
   register<TQuery extends Query<TResult>, TResult>(
     queryType: string,
-    handler: QueryHandler<TQuery, TResult>
+    handler: QueryHandler<TQuery, TResult>,
   ): void;
 
   /**
    * Execute a query by routing it to the appropriate handler
    */
-  execute<TQuery extends Query<TResult>, TResult>(query: TQuery): Promise<TResult>;
+  execute<TQuery extends Query<TResult>, TResult>(
+    query: TQuery,
+  ): Promise<TResult>;
 }

@@ -1,5 +1,8 @@
 import { ValueObject } from "./valueObject.ts";
-import { ValueObjectValidationError, ValueObjectErrorCodes } from "../errors/valueObjectError.ts";
+import {
+  ValueObjectErrorCodes,
+  ValueObjectValidationError,
+} from "../errors/valueObjectError.ts";
 
 /**
  * Value object representing a unique identifier for RSS feeds.
@@ -47,7 +50,7 @@ export class FeedId extends ValueObject<string> {
       throw new ValueObjectValidationError(
         "FeedId must be a non-empty string",
         "FeedId",
-        ValueObjectErrorCodes.EMPTY_VALUE
+        ValueObjectErrorCodes.EMPTY_VALUE,
       );
     }
 
@@ -55,7 +58,7 @@ export class FeedId extends ValueObject<string> {
       throw new ValueObjectValidationError(
         `FeedId must be at least ${FeedId.MIN_LENGTH} character long`,
         "FeedId",
-        ValueObjectErrorCodes.TOO_SHORT
+        ValueObjectErrorCodes.TOO_SHORT,
       );
     }
 
@@ -63,7 +66,7 @@ export class FeedId extends ValueObject<string> {
       throw new ValueObjectValidationError(
         `FeedId must not exceed ${FeedId.MAX_LENGTH} characters`,
         "FeedId",
-        ValueObjectErrorCodes.TOO_LONG
+        ValueObjectErrorCodes.TOO_LONG,
       );
     }
 
@@ -71,7 +74,7 @@ export class FeedId extends ValueObject<string> {
       throw new ValueObjectValidationError(
         "FeedId must contain only alphanumeric characters, underscores, and hyphens",
         "FeedId",
-        ValueObjectErrorCodes.INVALID_CHARACTERS
+        ValueObjectErrorCodes.INVALID_CHARACTERS,
       );
     }
   }

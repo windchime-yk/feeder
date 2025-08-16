@@ -7,7 +7,10 @@
 
 // Re-export main interfaces and types
 export type { FeedService } from "./core/application/services/feedService.ts";
-export type { FeedWriteRepository, FeedReadRepository } from "./core/domain/interfaces/feedRepository.ts";
+export type {
+  FeedReadRepository,
+  FeedWriteRepository,
+} from "./core/domain/interfaces/feedRepository.ts";
 export type {
   ParsedFeedData,
   ParsedFeedItem,

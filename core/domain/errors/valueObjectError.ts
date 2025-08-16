@@ -21,4 +21,5 @@ export const ValueObjectErrorCodes = {
   INVALID_CHARACTERS: "INVALID_CHARACTERS",
 } as const;
 
-export type ValueObjectErrorCode = typeof ValueObjectErrorCodes[keyof typeof ValueObjectErrorCodes];
+export type ValueObjectErrorCode =
+  typeof ValueObjectErrorCodes[keyof typeof ValueObjectErrorCodes];

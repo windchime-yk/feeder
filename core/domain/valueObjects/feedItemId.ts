@@ -1,5 +1,8 @@
 import { ValueObject } from "./valueObject.ts";
-import { ValueObjectValidationError, ValueObjectErrorCodes } from "../errors/valueObjectError.ts";
+import {
+  ValueObjectErrorCodes,
+  ValueObjectValidationError,
+} from "../errors/valueObjectError.ts";
 
 /**
  * Value object representing a unique identifier for RSS feed items.
@@ -47,7 +50,7 @@ export class FeedItemId extends ValueObject<string> {
     const cleanGuid = guid
       .replace(/[^a-zA-Z0-9_-]/g, "_") // Replace invalid chars with underscore
       .substring(0, FeedItemId.MAX_LENGTH); // Ensure max length
-    
+
     return new FeedItemId(cleanGuid);
   }
 
@@ -59,7 +62,7 @@ export class FeedItemId extends ValueObject<string> {
       throw new ValueObjectValidationError(
         "FeedItemId must be a non-empty string",
         "FeedItemId",
-        ValueObjectErrorCodes.EMPTY_VALUE
+        ValueObjectErrorCodes.EMPTY_VALUE,
       );
     }
 
@@ -67,7 +70,7 @@ export class FeedItemId extends ValueObject<string> {
       throw new ValueObjectValidationError(
         `FeedItemId must be at least ${FeedItemId.MIN_LENGTH} character long`,
         "FeedItemId",
-        ValueObjectErrorCodes.TOO_SHORT
+        ValueObjectErrorCodes.TOO_SHORT,
       );
     }
 
@@ -75,7 +78,7 @@ export class FeedItemId extends ValueObject<string> {
       throw new ValueObjectValidationError(
         `FeedItemId must not exceed ${FeedItemId.MAX_LENGTH} characters`,
         "FeedItemId",
-        ValueObjectErrorCodes.TOO_LONG
+        ValueObjectErrorCodes.TOO_LONG,
       );
     }
 
@@ -83,7 +86,7 @@ export class FeedItemId extends ValueObject<string> {
       throw new ValueObjectValidationError(
         "FeedItemId must contain only alphanumeric characters, underscores, and hyphens",
         "FeedItemId",
-        ValueObjectErrorCodes.INVALID_CHARACTERS
+        ValueObjectErrorCodes.INVALID_CHARACTERS,
       );
     }
   }

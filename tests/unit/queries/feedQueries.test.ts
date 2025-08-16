@@ -1,12 +1,12 @@
 import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import type {
-  GetFeedQuery,
-  GetAllFeedsQuery,
-  GetFeedItemsQuery,
+  FeedItemReadModel,
   FeedReadModel,
   FeedSummaryReadModel,
-  FeedItemReadModel,
+  GetAllFeedsQuery,
+  GetFeedItemsQuery,
+  GetFeedQuery,
 } from "../../../core/application/queries/feedQueries.ts";
 import { FeedId } from "../../../core/domain/types.ts";
 
@@ -123,7 +123,7 @@ describe("Feed Queries", () => {
   describe("Query interface compliance", () => {
     it("should extend base Query interface", () => {
       const testFeedId = FeedId.create("feed-123");
-      
+
       const getFeedQuery: GetFeedQuery = {
         queryType: "GetFeed",
         feedId: testFeedId,
@@ -134,7 +134,7 @@ describe("Feed Queries", () => {
       };
 
       const testFeedId2 = FeedId.create("feed-123");
-      
+
       const getFeedItemsQuery: GetFeedItemsQuery = {
         queryType: "GetFeedItems",
         feedId: testFeedId2,

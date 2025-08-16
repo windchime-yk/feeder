@@ -23,7 +23,7 @@ export abstract class ValueObject<T> {
     if (other === null || other === undefined) {
       return false;
     }
-    
+
     if (this.constructor !== other.constructor) {
       return false;
     }

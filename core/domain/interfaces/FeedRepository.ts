@@ -1,8 +1,8 @@
 import type { Feed, FeedId } from "../types.ts";
 import type {
+  FeedItemReadModel,
   FeedReadModel,
   FeedSummaryReadModel,
-  FeedItemReadModel,
 } from "../../application/queries/feedQueries.ts";
 
 /**
@@ -39,10 +39,18 @@ export interface FeedReadRepository {
   /**
    * Get all feeds as summary read models
    */
-  getAllFeeds(userId?: string, limit?: number, offset?: number): Promise<FeedSummaryReadModel[]>;
+  getAllFeeds(
+    userId?: string,
+    limit?: number,
+    offset?: number,
+  ): Promise<FeedSummaryReadModel[]>;
 
   /**
    * Get feed items for a specific feed
    */
-  getFeedItems(feedId: FeedId, limit?: number, since?: Date): Promise<FeedItemReadModel[]>;
+  getFeedItems(
+    feedId: FeedId,
+    limit?: number,
+    since?: Date,
+  ): Promise<FeedItemReadModel[]>;
 }

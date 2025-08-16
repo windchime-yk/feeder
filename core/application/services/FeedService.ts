@@ -1,16 +1,16 @@
 /**
  * @deprecated This interface is being replaced by CQRS pattern.
  * Use command handlers for write operations and query handlers for read operations.
- * 
+ *
  * Write operations:
  * - parseFeed + saveFeed -> AddFeedCommand + AddFeedCommandHandler
  * - updateFeed -> RefreshFeedCommand + RefreshFeedCommandHandler
  * - deleteFeed -> DeleteFeedCommand + DeleteFeedCommandHandler
- * 
+ *
  * Read operations:
  * - getFeed -> GetFeedQuery + GetFeedQueryHandler
  * - getAllFeeds -> GetAllFeedsQuery + GetAllFeedsQueryHandler
- * 
+ *
  * See:
  * - src/application/commands/FeedCommands.ts
  * - src/application/queries/FeedQueries.ts

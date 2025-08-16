@@ -1,7 +1,10 @@
 import { assertEquals, assertThrows } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import { FeedId } from "../../../../core/domain/valueObjects/feedId.ts";
-import { ValueObjectValidationError, ValueObjectErrorCodes } from "../../../../core/domain/errors/valueObjectError.ts";
+import {
+  ValueObjectErrorCodes,
+  ValueObjectValidationError,
+} from "../../../../core/domain/errors/valueObjectError.ts";
 
 describe("FeedId", () => {
   describe("creation", () => {
@@ -59,7 +62,7 @@ describe("FeedId", () => {
       assertThrows(
         () => FeedId.create(emptyId),
         ValueObjectValidationError,
-        "FeedId must be a non-empty string"
+        "FeedId must be a non-empty string",
       );
     });
 
@@ -68,7 +71,7 @@ describe("FeedId", () => {
       assertThrows(
         () => FeedId.create(null as any),
         ValueObjectValidationError,
-        "FeedId must be a non-empty string"
+        "FeedId must be a non-empty string",
       );
     });
 
@@ -77,7 +80,7 @@ describe("FeedId", () => {
       assertThrows(
         () => FeedId.create(undefined as any),
         ValueObjectValidationError,
-        "FeedId must be a non-empty string"
+        "FeedId must be a non-empty string",
       );
     });
 
@@ -86,7 +89,7 @@ describe("FeedId", () => {
       assertThrows(
         () => FeedId.create(123 as any),
         ValueObjectValidationError,
-        "FeedId must be a non-empty string"
+        "FeedId must be a non-empty string",
       );
     });
 
@@ -98,7 +101,7 @@ describe("FeedId", () => {
       assertThrows(
         () => FeedId.create(longId),
         ValueObjectValidationError,
-        "FeedId must not exceed 255 characters"
+        "FeedId must not exceed 255 characters",
       );
     });
 
@@ -114,11 +117,11 @@ describe("FeedId", () => {
       ];
 
       // When & Then
-      invalidIds.forEach(invalidId => {
+      invalidIds.forEach((invalidId) => {
         assertThrows(
           () => FeedId.create(invalidId),
           ValueObjectValidationError,
-          "FeedId must contain only alphanumeric characters, underscores, and hyphens"
+          "FeedId must contain only alphanumeric characters, underscores, and hyphens",
         );
       });
     });
@@ -134,7 +137,10 @@ describe("FeedId", () => {
         assertEquals(error instanceof ValueObjectValidationError, true);
         const domainError = error as ValueObjectValidationError;
         assertEquals(domainError.domain, "ValueObject.FeedId");
-        assertEquals(domainError.errorCode, ValueObjectErrorCodes.INVALID_CHARACTERS);
+        assertEquals(
+          domainError.errorCode,
+          ValueObjectErrorCodes.INVALID_CHARACTERS,
+        );
         assertEquals(domainError.name, "ValueObjectValidationError");
       }
     });
@@ -152,7 +158,7 @@ describe("FeedId", () => {
       ];
 
       // When & Then
-      validIds.forEach(validId => {
+      validIds.forEach((validId) => {
         const feedId = FeedId.create(validId);
         assertEquals(feedId.value, validId);
       });

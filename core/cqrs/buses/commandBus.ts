@@ -9,7 +9,7 @@ export interface CommandBus {
    */
   register<TCommand extends Command>(
     commandType: string,
-    handler: CommandHandler<TCommand>
+    handler: CommandHandler<TCommand>,
   ): void;
 
   /**

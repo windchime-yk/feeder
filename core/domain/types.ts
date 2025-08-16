@@ -7,11 +7,11 @@ export { FeedId } from "./valueObjects/feedId.ts";
 export { FeedItemId } from "./valueObjects/feedItemId.ts";
 
 // Domain errors
-export { 
-  DomainError, 
-  ValueObjectValidationError, 
+export {
+  DomainError,
+  type ValueObjectErrorCode,
   ValueObjectErrorCodes,
-  type ValueObjectErrorCode 
+  ValueObjectValidationError,
 } from "./errors/mod.ts";
 
 // Placeholder types for entities and value objects (to be implemented in subsequent tasks)

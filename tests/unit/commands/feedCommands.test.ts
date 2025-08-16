@@ -2,9 +2,9 @@ import { assertEquals } from "@std/assert";
 import { describe, it } from "@std/testing/bdd";
 import type {
   AddFeedCommand,
-  UpdateFeedCommand,
   DeleteFeedCommand,
   RefreshFeedCommand,
+  UpdateFeedCommand,
 } from "../../../core/application/commands/feedCommands.ts";
 import { FeedId } from "../../../core/domain/types.ts";
 
@@ -72,7 +72,7 @@ describe("Feed Commands", () => {
       };
 
       const feedId = FeedId.create("feed-123");
-      
+
       const updateCommand: UpdateFeedCommand = {
         commandType: "UpdateFeed",
         feedId: feedId,

@@ -1,8 +1,8 @@
 import type { EventHandler } from "../../cqrs/interfaces/event.ts";
 import type {
   FeedAddedEvent,
-  FeedUpdatedEvent,
   FeedDeletedEvent,
+  FeedUpdatedEvent,
 } from "../../domain/events/feedEvents.ts";
 
 /**
@@ -22,9 +22,11 @@ export interface FeedAddedEventHandler extends EventHandler<FeedAddedEvent> {}
 /**
  * Event handler for feed updated events
  */
-export interface FeedUpdatedEventHandler extends EventHandler<FeedUpdatedEvent> {}
+export interface FeedUpdatedEventHandler
+  extends EventHandler<FeedUpdatedEvent> {}
 
 /**
  * Event handler for feed deleted events
  */
-export interface FeedDeletedEventHandler extends EventHandler<FeedDeletedEvent> {}
+export interface FeedDeletedEventHandler
+  extends EventHandler<FeedDeletedEvent> {}
